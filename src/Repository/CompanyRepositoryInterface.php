@@ -2,9 +2,17 @@
 
 namespace Cogitoweb\ShardManagerBundle\Repository;
 
+use Coditoweb\ShardManagerBundle\Entity\CompanyInterface;
+
 interface CompanyRepositoryInterface
 {
-    public function findTxtFileData(): string;
+    /**
+     * @return CompanyInterface[]
+     */
+    public function findOrderedById(): array;
 
-    public function findCsvFileData(): string;
+    /**
+     * @return CompanyInterface[]
+     */
+    public function findOrderedByName(): array;
 }

@@ -4,28 +4,20 @@ namespace Cogitoweb\ShardManagerBundle\Command;
 
 use Cogitoweb\ShardManagerBundle\Repository\CompanyRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ShardsListCommand extends Command
 {
     /** @var CompanyRepositoryInterface */
     private $companyRepository;
 
-    /** @var string */
-    private $publicDirectory;
-
-    /** @var string */
-    private $hostName;
-
-    public function __construct(CompanyRepositoryInterface $companyRepository, string $rootDir, string $hostName)
+    public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         parent::__construct();
         $this->companyRepository = $companyRepository;
-        $this->publicDirectory   = $rootDir.'/../public/';
-        $this->hostName          = $hostName;
     }
 
     protected function configure()
@@ -38,22 +30,45 @@ class ShardsListCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $filesystem   = new Filesystem();
         $outputFormat = $input->getOption('format');
 
         switch ($outputFormat) {
             case 'txt':
-                $filename = 'shards.txt';
-                $filesystem->dumpFile($this->publicDirectory.$filename, $this->companyRepository->findTxtFileData());
-                $output->writeln("$this->hostName/$filename");
+                $table = new Table($output);
+                $table->setHeaders(['Company name', 'Shard ID']);
+                $companies = $this->companyRepository->findOrderedByName();
+                $table->setRows($this->createTableRows($companies));
+                $table->render();
                 break;
             case 'csv':
-                $filename = 'shards.csv';
-                $filesystem->dumpFile($this->publicDirectory.$filename, $this->companyRepository->findCsvFileData());
-                $output->writeln("$this->hostName/$filename");
+                $companies = $this->companyRepository->findOrderedById();
+                $csvData = $this->createCsvData($companies);
+                $output->writeln($csvData);
                 break;
             default:
                 $output->writeln('Unknown format. Please specify a correct output format.');
         }
+    }
+
+    private function createTableRows(array $companies): array
+    {
+        $rows = [];
+
+        foreach ($companies as $company) {
+            $rows[] = [$company->getName(), $company->getId()];
+        }
+
+        return $rows;
+    }
+
+    private function createCsvData(array $companies): string
+    {
+        $result = '';
+        foreach ($companies as $company) {
+            $result .= $company->getId().',';
+        }
+        $result = \rtrim($result, ',');
+
+        return $result;
     }
 }
