@@ -4,6 +4,7 @@
   "license": "proprietary",
   "require": {
     "symfony/console": "^4.3",
+    "symfony/filesystem": "^4.3",
     "symfony/http-kernel": "^4.3"
   },
   "config": {
