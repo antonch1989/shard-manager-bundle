@@ -2,6 +2,8 @@
 
 namespace Coditoweb\ShardManagerBundle\Entity;
 
+use Ramsey\Uuid\UuidInterface;
+
 interface CompanyInterface
 {
     /**
