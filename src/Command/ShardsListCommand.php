@@ -44,11 +44,11 @@ class ShardsListCommand extends Command
         if ($outputFormat === 'txt') {
             $filename = 'shards.txt';
             $filesystem->dumpFile($this->publicDirectory.$filename, 'abc');
-            $output->writeln('<a href="{$this->hostName.$filename}">Download txt file</a>');
+            $output->writeln('<a href="'.$this->hostName.$filename.'">Download txt file</a>');
         } elseif ($outputFormat === 'csv') {
             $filename = 'shards.csv';
             $filesystem->dumpFile($this->publicDirectory.$filename, 'def');
-            $output->writeln('<a href="{$this->hostName.$filename}">Download csv file</a>');
+            $output->writeln('<a href="'.$this->hostName.$filename.'">Download csv file</a>');
         } else {
             $output->writeln('Unknown format. Please specify a correct output format.');
         }
