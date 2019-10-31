@@ -45,12 +45,12 @@ class ShardsListCommand extends Command
             case 'txt':
                 $filename = 'shards.txt';
                 $filesystem->dumpFile($this->publicDirectory.$filename, $this->companyRepository->findTxtFileData());
-                $output->writeln("$this->hostName.'/'.$filename");
+                $output->writeln("$this->hostName/$filename");
                 break;
             case 'csv':
                 $filename = 'shards.csv';
                 $filesystem->dumpFile($this->publicDirectory.$filename, $this->companyRepository->findCsvFileData());
-                $output->writeln("$this->hostName.'/'.$filename");
+                $output->writeln("$this->hostName/$filename");
                 break;
             default:
                 $output->writeln('Unknown format. Please specify a correct output format.');
