@@ -2,7 +2,7 @@
 
 namespace Cogitoweb\ShardManagerBundle\Repository;
 
-use Coditoweb\ShardManagerBundle\Entity\CompanyInterface;
+use Cogitoweb\ShardManagerBundle\Entity\CompanyInterface;
 
 interface CompanyRepositoryInterface
 {

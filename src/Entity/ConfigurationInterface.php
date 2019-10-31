@@ -1,6 +1,6 @@
 <?php
 
-namespace Coditoweb\ShardManagerBundle\Entity;
+namespace Cogitoweb\ShardManagerBundle\Entity;
 
 interface ConfigurationInterface
 {
