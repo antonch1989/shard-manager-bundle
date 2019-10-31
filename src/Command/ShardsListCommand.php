@@ -17,11 +17,15 @@ class ShardsListCommand extends Command
     /** @var string */
     private $publicDirectory;
 
-    public function __construct(CompanyRepositoryInterface $companyRepository, string $rootDir)
+    /** @var string */
+    private $hostName;
+
+    public function __construct(CompanyRepositoryInterface $companyRepository, string $rootDir, string $hostName)
     {
         parent::__construct();
         $this->companyRepository = $companyRepository;
-        $this->publicDirectory   = $rootDir.'../public/';
+        $this->publicDirectory   = $rootDir.'/../public/';
+        $this->hostName          = $hostName;
     }
 
     protected function configure()
@@ -38,9 +42,13 @@ class ShardsListCommand extends Command
         $outputFormat = $input->getOption('format');
 
         if ($outputFormat === 'txt') {
-            $filesystem->dumpFile($this->publicDirectory.'shards.txt', 'abc');
+            $filename = 'shards.txt';
+            $filesystem->dumpFile($this->publicDirectory.$filename, 'abc');
+            $output->writeln('<a href="{$this->hostName.$filename}">Download txt file</a>');
         } elseif ($outputFormat === 'csv') {
-            $filesystem->dumpFile($this->publicDirectory.'shards.csv', 'def');
+            $filename = 'shards.csv';
+            $filesystem->dumpFile($this->publicDirectory.$filename, 'def');
+            $output->writeln('<a href="{$this->hostName.$filename}">Download csv file</a>');
         } else {
             $output->writeln('Unknown format. Please specify a correct output format.');
         }
