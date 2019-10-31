@@ -1,4 +1,5 @@
 {
+  "name": "cogitoweb/shard-manager-bundle",
   "type": "project",
   "license": "proprietary",
   "require": {
