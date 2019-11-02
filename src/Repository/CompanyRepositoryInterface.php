@@ -4,6 +4,10 @@ namespace Cogitoweb\ShardManagerBundle\Repository;
 
 use Cogitoweb\ShardManagerBundle\Entity\CompanyInterface;
 
+/**
+ * Interface CompanyRepositoryInterface
+ * @package Cogitoweb\ShardManagerBundle\Repository
+ */
 interface CompanyRepositoryInterface
 {
     /**

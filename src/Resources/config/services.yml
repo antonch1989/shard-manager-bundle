@@ -1,0 +1,9 @@
+services:
+  cogitoweb.command.shard_list:
+    class: Cogitoweb\ShardManagerBundle\Command\ShardsListCommand
+    arguments:
+      - '@cogitoweb.repository.company'
+      - '%kernel.root_dir%'
+      - '%env(APP_HOSTNAME)%'
+    tags:
+      - {name: console.command}

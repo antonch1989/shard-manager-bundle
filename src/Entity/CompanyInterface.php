@@ -4,6 +4,10 @@ namespace Cogitoweb\ShardManagerBundle\Entity;
 
 use Ramsey\Uuid\UuidInterface;
 
+/**
+ * Interface CompanyInterface
+ * @package Cogitoweb\ShardManagerBundle\Entity
+ */
 interface CompanyInterface
 {
     /**

@@ -2,6 +2,10 @@
 
 namespace Cogitoweb\ShardManagerBundle\Entity;
 
+/**
+ * Interface ConfigurationInterface
+ * @package Cogitoweb\ShardManagerBundle\Entity
+ */
 interface ConfigurationInterface
 {
     /**

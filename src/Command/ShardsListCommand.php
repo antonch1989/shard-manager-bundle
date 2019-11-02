@@ -9,25 +9,42 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class ShardsListCommand
+ * @package Cogitoweb\ShardManagerBundle\Command
+ */
 class ShardsListCommand extends Command
 {
     /** @var CompanyRepositoryInterface */
     private $companyRepository;
 
+    /**
+     * ShardsListCommand constructor.
+     * @param CompanyRepositoryInterface $companyRepository
+     */
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         parent::__construct();
         $this->companyRepository = $companyRepository;
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function configure()
     {
         $this
             ->setName('cogitoweb:shards:list')
             ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'Output file format', 'txt')
+            ->setDescription('Outputs a list of shards in a specified format.')
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $outputFormat = $input->getOption('format');
@@ -50,6 +67,11 @@ class ShardsListCommand extends Command
         }
     }
 
+    /**
+     * Creates table rows from an array of companies
+     * @param array $companies
+     * @return array
+     */
     private function createTableRows(array $companies): array
     {
         $rows = [];
@@ -61,6 +83,11 @@ class ShardsListCommand extends Command
         return $rows;
     }
 
+    /**
+     * Creates csv data from an array of companies
+     * @param array $companies
+     * @return string
+     */
     private function createCsvData(array $companies): string
     {
         $result = '';
