@@ -21,7 +21,7 @@ class CogitowebShardManagerExtension extends Extension
     {
         $definition = new Definition(Connection::class);
         $definition->setFactory([DriverManager::class, 'getConnection']);
-        $definition->setArguments([
+        $definition->setArgument(0, [
             'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
             'driver' => 'pdo_mysql',
             'global' => array('user' => '', 'password' => '', 'host' => '', 'dbname' => ''),
