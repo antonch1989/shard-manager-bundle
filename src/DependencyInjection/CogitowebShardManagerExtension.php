@@ -2,6 +2,8 @@
 
 namespace Cogitoweb\ShardManagerBundle\DependencyInjection;
 
+use Cogitoweb\ShardManagerBundle\Entity\CompanyInterface;
+use Cogitoweb\ShardManagerBundle\Repository\CompanyRepositoryInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Symfony\Component\DependencyInjection\Definition;
@@ -19,21 +21,36 @@ class CogitowebShardManagerExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        /** @var CompanyRepositoryInterface $companyRepository */
+        $companyRepository = $container->get('cogitoweb.repository.company');
+        $shards = $this->createShardsConfig($companyRepository->findOrderedById());
+
         $definition = new Definition(Connection::class);
         $definition->setFactory([DriverManager::class, 'getConnection']);
         $definition->setArgument(0, [
             'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
             'driver' => 'pdo_mysql',
-            'global' => array('user' => '', 'password' => '', 'host' => '', 'dbname' => ''),
-            'shards' => array(
-                array('id' => 1, 'user' => 'slave1', 'password', 'host' => '', 'dbname' => ''),
-                array('id' => 2, 'user' => 'slave2', 'password', 'host' => '', 'dbname' => ''),
-            ),
+            'shards' => $shards,
             'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
         ]);
         $container->setDefinition('cogitoweb.multitenant_connection', $definition);
         
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+    /**
+     * @param CompanyInterface[] $companies
+     * @return array
+     */
+    public function createShardsConfig(array $companies): array
+    {
+        $shards = [];
+
+        foreach ($companies as $company) {
+            $shards[] = ['id' => $company->getId(), 'url' => $company->getConfiguration()->getDatabaseConnection()];
+        }
+
+        return $shards;
     }
 }
