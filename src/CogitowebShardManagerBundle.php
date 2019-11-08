@@ -16,27 +16,27 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class CogitowebShardManagerBundle extends Bundle
 {
-    /**
-     * @param ContainerBuilder $container
-     * @throws \Exception
-     */
-    public function build(ContainerBuilder $container)
+    public function boot()
     {
-        parent::build($container);
-
+        parent::boot();
         /** @var CompanyRepositoryInterface $companyRepository */
-        $companyRepository = $container->get('cogitoweb.repository.company');
+        $companyRepository = $this->container->get('cogitoweb.repository.company');
         $shards = $this->createShardsConfig($companyRepository->findOrderedById());
 
-        $definition = new Definition(Connection::class);
-        $definition->setFactory([DriverManager::class, 'getConnection']);
-        $definition->setArgument(0, [
+//        $definition = new Definition(Connection::class);
+//        $definition->setFactory([DriverManager::class, 'getConnection']);
+//        $definition->setArgument(0, [
+//            'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
+//            'driver' => 'pdo_mysql',
+//            'shards' => $shards,
+//            'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
+//        ]);
+        $this->container->set('cogitoweb.multitenant_connection', DriverManager::getConnection([
             'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
             'driver' => 'pdo_mysql',
             'shards' => $shards,
             'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
-        ]);
-        $container->setDefinition('cogitoweb.multitenant_connection', $definition);
+        ]));
     }
 
     /**
