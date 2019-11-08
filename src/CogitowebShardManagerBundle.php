@@ -48,8 +48,8 @@ class CogitowebShardManagerBundle extends Bundle
     {
         $shards = [];
 
-        foreach ($companies as $company) {
-            $shards[] = ['id' => $company->getId(), 'url' => $company->getConfiguration()->getDatabaseConnection()];
+        foreach ($companies as $key => $company) {
+            $shards[] = ['id' => $key+1, 'url' => $company->getConfiguration()->getDatabaseConnection()];
         }
 
         return $shards;
