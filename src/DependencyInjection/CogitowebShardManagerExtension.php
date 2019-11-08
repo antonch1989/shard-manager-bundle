@@ -26,6 +26,7 @@ class CogitowebShardManagerExtension extends Extension
 //        $shards = $this->createShardsConfig($companyRepository->findOrderedById());
 
         $definition = new Definition(Connection::class);
+        $definition->setPublic(true);
 //        $definition->setFactory([DriverManager::class, 'getConnection']);
 //        $definition->setArgument(0, [
 //            'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
