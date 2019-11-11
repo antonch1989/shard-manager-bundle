@@ -77,7 +77,7 @@ class ShardsListCommand extends Command
         $rows = [];
 
         foreach ($companies as $company) {
-            $rows[] = [$company->getName(), $company->getId()->toString()];
+            $rows[] = [$company->getName(), $company->getId()];
         }
 
         return $rows;
@@ -92,7 +92,7 @@ class ShardsListCommand extends Command
     {
         $result = '';
         foreach ($companies as $company) {
-            $result .= $company->getId()->toString().',';
+            $result .= $company->getId().',';
         }
         $result = \rtrim($result, ',');
 
