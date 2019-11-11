@@ -25,7 +25,12 @@ class CogitowebShardManagerBundle extends Bundle
         $this->container->set('cogitoweb.multitenant_connection', DriverManager::getConnection([
             'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
             'driver' => 'pdo_mysql',
-            'global' => ['user' => '', 'password' => '', 'host' => '', 'dbname' => ''],
+            'global' => [
+                'user'     => $this->container->getParameter('user'), 
+                'password' => $this->container->getParameter('password'),
+                'host'     => $this->container->getParameter('host'),
+                'dbname'   => $this->container->getParameter('dbname'),
+            ],
             'shards' => $shards,
             'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
         ]));
