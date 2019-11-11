@@ -5,3 +5,11 @@ To make the bundle work:
 cogitoweb.repository.company:
     alias: App\Repository\CompanyRepository
 ```
+3\. Define parameters for a global connection. For example:
+```
+parameters:
+    user: 'abc'
+    password: 'zzz'
+    host: 'kkk'
+    dbname: 'ttt'
+```
