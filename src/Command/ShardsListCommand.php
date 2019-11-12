@@ -2,6 +2,7 @@
 
 namespace Cogitoweb\ShardManagerBundle\Command;
 
+use Cogitoweb\ShardManagerBundle\Entity\CompanyInterface;
 use Cogitoweb\ShardManagerBundle\Repository\CompanyRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -69,7 +70,7 @@ class ShardsListCommand extends Command
 
     /**
      * Creates table rows from an array of companies
-     * @param array $companies
+     * @param CompanyInterface[] $companies
      * @return array
      */
     private function createTableRows(array $companies): array
@@ -77,7 +78,7 @@ class ShardsListCommand extends Command
         $rows = [];
 
         foreach ($companies as $company) {
-            $rows[] = [$company->getName(), $company->getId()];
+            $rows[] = [$company->getName(), $company->getShardNumber()];
         }
 
         return $rows;
@@ -85,14 +86,14 @@ class ShardsListCommand extends Command
 
     /**
      * Creates csv data from an array of companies
-     * @param array $companies
+     * @param CompanyInterface[] $companies
      * @return string
      */
     private function createCsvData(array $companies): string
     {
         $result = '';
         foreach ($companies as $company) {
-            $result .= $company->getId().',';
+            $result .= $company->getShardNumber().',';
         }
         $result = \rtrim($result, ',');
 
