@@ -24,14 +24,14 @@ class CogitowebShardManagerBundle extends Bundle
         $shards = $this->createShardsConfig($companyRepository->findOrderedById());
         $this->container->set('cogitoweb.multitenant_connection', DriverManager::getConnection([
             'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
-            'driver' => 'pdo_mysql',
+            'driver' => $this->container->getParameter('connection_driver'),
             'global' => [
                 'user'     => $this->container->getParameter('user'), 
                 'password' => $this->container->getParameter('password'),
                 'host'     => $this->container->getParameter('host'),
                 'dbname'   => $this->container->getParameter('dbname'),
             ],
-            'shards' => $shards,
+            'shards'      => $shards,
             'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
         ]));
     }
@@ -45,7 +45,7 @@ class CogitowebShardManagerBundle extends Bundle
         $shards = [];
 
         foreach ($companies as $company) {
-            $shards[] = ['id' => $company->getId(), 'url' => $company->getConfiguration()->getDatabaseConnection()];
+            $shards[] = ['id' => $company->getShardNumber(), 'url' => $company->getConfiguration()->getDatabaseConnection()];
         }
 
         return $shards;

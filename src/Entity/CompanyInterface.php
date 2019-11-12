@@ -2,6 +2,8 @@
 
 namespace Cogitoweb\ShardManagerBundle\Entity;
 
+use Ramsey\Uuid\UuidInterface;
+
 /**
  * Interface CompanyInterface
  * @package Cogitoweb\ShardManagerBundle\Entity
@@ -9,14 +11,19 @@ namespace Cogitoweb\ShardManagerBundle\Entity;
 interface CompanyInterface
 {
     /**
-     * @return int
+     * @return UuidInterface
      */
-    public function getId(): int;
+    public function getId(): UuidInterface;
 
     /**
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * @return int
+     */
+    public function getShardNumber(): int;
 
     /**
      * @return ConfigurationInterface

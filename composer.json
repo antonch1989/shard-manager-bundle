@@ -4,6 +4,7 @@
   "license": "proprietary",
   "require": {
     "doctrine/dbal": "^2.10",
+    "ramsey/uuid": "^3.8",
     "symfony/config": "^4.3",
     "symfony/console": "^4.3",
     "symfony/dependency-injection": "^4.3",
