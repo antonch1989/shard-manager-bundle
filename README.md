@@ -5,11 +5,12 @@ To make the bundle work:
 cogitoweb.repository.company:
     alias: App\Repository\CompanyRepository
 ```
-3\. Define parameters for a global connection. For example:
+3\. Define a full set of database connection env variables instead of DATABASE_URL. For example:
+
 ```
-parameters:
-    user: 'abc'
-    password: 'zzz'
-    host: 'kkk'
-    dbname: 'ttt'
+DATABASE_HOST=shard_app_mysql
+DATABASE_PORT=3306
+DATABASE_USER=app1
+DATABASE_PASSWORD=app1
+DATABASE_DRIVER=pdo_mysql
 ```
